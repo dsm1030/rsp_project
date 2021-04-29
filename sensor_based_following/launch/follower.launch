@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<launch>
+  <param name="/follow_range" value="0.4"/>
+  <!-- <node pkg="rosparam" type="set" name="set" args="/rref 0.3"/> -->
+
+  <node pkg="sensor_based_following" type="follower_node" name="follower" output="screen">
+  </node>
+  
+</launch>
