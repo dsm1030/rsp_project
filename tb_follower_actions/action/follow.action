@@ -1,0 +1,5 @@
+tb_follower_msgs/follow_distance_goal goal
+---
+tb_follower_msgs/follow_result result
+---
+tb_follower_msgs/follow_status_feedback feedback 
