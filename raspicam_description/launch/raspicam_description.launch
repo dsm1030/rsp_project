@@ -1,0 +1,7 @@
+<launch>
+
+  <param name="robot_description"
+	 command="$(find xacro)/xacro --inorder '$(find raspicam_description)/urdf/turtlebot_cam.urdf.xacro'"/>
+  
+</launch>
+
