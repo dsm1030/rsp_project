@@ -21,6 +21,7 @@ void server::goalCB(){
   tb_follower_actions::followFeedback fb;
   fb.feedback.fb_code = "following......";
 
+  ros::Rate rate(15);
   while(ros::ok()){
     if (dr<=-0.1){
       vx = -0.05;
@@ -35,15 +36,15 @@ void server::goalCB(){
     }
 
     if (dth<-45){
-      vth = -0.5;
+      vth = -0.8;
     } else if ((dth>=-45) && (dth<-25)){
-      vth = -0.3;
+      vth = -0.5;
     } else if ((dth>=-25) && (dth<=25)){
       vth = 0.0;
     } else if ((dth>25) && (dth<=45)){
-      vth = 0.3;
-    } else if (dth>45){
       vth = 0.5;
+    } else if (dth>45){
+      vth = 0.8;
     } else {
       vth = 0.0;
     }
@@ -55,6 +56,7 @@ void server::goalCB(){
 
     pubvelcmd(vx, vth);
     as->publishFeedback(fb);
+    rate.sleep();
   }
 
   as->setSucceeded();
@@ -87,13 +89,15 @@ void server::subscanCB(const sensor_msgs::LaserScanConstPtr& msg){
   int min_range_idx = std::min_element(laser_smooth.begin(),laser_smooth.end())-laser_smooth.begin();
   min_range = *std::min_element(laser_smooth.begin(),laser_smooth.end());
 
-  if( (abs(min_range-tagth)<35) ){
-    dr = min_range-rref;
-    dth = min_range_idx-deg;
-  } else {
-    dth = std::round(tagth);
-    dr = laser_smooth[tagth+deg];
-  }
+  // if( (abs(min_range-tagth)<35) ){
+  //   dr = min_range-rref;
+  //   dth = min_range_idx-deg;
+  // } else {
+  //   dth = std::round(tagth);
+  //   dr = laser_smooth[tagth+deg];
+  // }
+  dr = min_range-rref;
+  dth = min_range_idx-deg;
 
 }
 
@@ -103,6 +107,7 @@ void server::subtagCB(const geometry_msgs::PoseConstPtr& msg){
 }
 
 void server::preemptCB(){
+  std::cout << "cancel goal" << std::endl;
   pubvelcmd(0.0,0.0);
 }
 
@@ -110,6 +115,7 @@ void server::pubvelcmd( const double x, const double th ){
   geometry_msgs::Twist cmd_msg;
   cmd_msg.linear.x = x;
   cmd_msg.angular.z = th;
+  pub_cmd.publish(cmd_msg);
 }
 
 void server::scanidx_init(const int deg){
