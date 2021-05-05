@@ -1,5 +1,5 @@
 #include <ros/ros.h>
-#include <geometry_msgs/Pose.h>
+#include <geometry_msgs/PoseStamped.h>
 #include <tb_follower_msgs/ar_tag.h>
 
 class ar_filter{
@@ -15,7 +15,7 @@ private:
 
 public:
   ar_filter( ros::NodeHandle& nh );
-  void subCB( const geometry_msgs::PoseConstPtr& msg );
+  void subCB( const geometry_msgs::PoseStampedConstPtr& msg );
   void publisher();
 
 

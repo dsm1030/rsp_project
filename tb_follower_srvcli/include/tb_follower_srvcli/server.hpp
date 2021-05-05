@@ -23,6 +23,7 @@ private:
   double rref;
   int deg;
   double tagth;
+  double tagr;
   double dr;
   double min_range;
   int dth;

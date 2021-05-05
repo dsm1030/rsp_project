@@ -51,7 +51,7 @@ void server::goalCB(){
 
     fb.feedback.linear_vel = vx;
     fb.feedback.angular_vel = vth;
-    fb.feedback.cur_dist = min_range;
+    fb.feedback.cur_dist = dr;
     fb.feedback.cur_ang = dth;
 
     pubvelcmd(vx, vth);
@@ -64,7 +64,7 @@ void server::goalCB(){
 }
 
 void server::subscanCB(const sensor_msgs::LaserScanConstPtr& msg){
-  nh.getParam("follow_range",rref);
+  nh.getParam("/follow_range",rref);
   std::vector< double > laser_data;
   int idx;
   for(int i=0;i<scan_idx.size();i++){
@@ -89,12 +89,19 @@ void server::subscanCB(const sensor_msgs::LaserScanConstPtr& msg){
   int min_range_idx = std::min_element(laser_smooth.begin(),laser_smooth.end())-laser_smooth.begin();
   min_range = *std::min_element(laser_smooth.begin(),laser_smooth.end());
 
-  if( (new_ar) && (abs(min_range-tagth)<35) ){
+  if(new_ar){
+
+    if( (abs(min_range_idx-tagth)<35) ){
+      dr = min_range-rref;
+      dth = min_range_idx-deg;
+    } else {
+      dth = std::round(tagth);
+      dr = tagr-rref;
+      // dr = laser_smooth[tagth+deg];
+    }
+  } else {
     dr = min_range-rref;
     dth = min_range_idx-deg;
-  } else {
-    dth = std::round(tagth);
-    dr = laser_smooth[tagth+deg];
   }
   // dr = min_range-rref;
   // dth = min_range_idx-deg;
@@ -106,6 +113,7 @@ void server::subtagCB(const tb_follower_msgs::ar_tagConstPtr& msg){
   // tagth = atan2(msg->position.y,msg->position.x)/pi*180.0;
   new_ar = msg->new_data;
   tagth = msg->polar_th;
+  tagr  = msg->polar_r;
 }
 
 void server::preemptCB(){

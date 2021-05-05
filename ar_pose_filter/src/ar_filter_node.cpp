@@ -6,10 +6,11 @@ int main( int argc, char** argv ){
   ros::NodeHandle nh;
   ar_filter filter(nh);
 
-  ros::Rate rate(15);
+  ros::Rate rate(5);
   while(ros::ok()){
     filter.publisher();
     ros::spinOnce();
+    rate.sleep();
   }
   
   return 0;

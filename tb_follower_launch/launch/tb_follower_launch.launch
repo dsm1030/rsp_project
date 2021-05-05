@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<launch>
+  <include file="$(find laserscan_filter)/launch/laserscan_filter.launch" />
+
+  <node pkg="ar_pose_filter" type="ar_filter_node" name="ar_filter_node">
+    <param name="/tag_pose" value="/raspicam_node/aruco_single/pose"/>
+  </node>
+
+  <include file="$(find aruco_marker_finder)/launch/aruco_marker_finder.launch" />
+
+  <node pkg="rqt_reconfigure" type="rqt_reconfigure" name="rqt_reconfigure" />
+  <node pkg="gui" type="gui_node" name="gui_node" />
+
+
+</launch>
