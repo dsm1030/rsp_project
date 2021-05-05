@@ -16,13 +16,15 @@ server::server( ros::NodeHandle& nh ) : nh( nh ),tagth(0.0){
 
 void server::goalCB(){
   tb_follower_actions::followGoal goal = *(as->acceptNewGoal());
-  std::cout << "following......" << std::endl;
+  std::cout << "Goal accepted, following......" << std::endl;
 
   tb_follower_actions::followFeedback fb;
   fb.feedback.fb_code = "following......";
 
   ros::Rate rate(15);
-  while(ros::ok()){
+  nh.getParam("/client_node/status",goal_status);
+
+  while(goal_status){
     if (dr<=-0.1){
       vx = -0.05;
     } else if ((dr>-0.1) && (dr<=0.1)){
@@ -57,8 +59,11 @@ void server::goalCB(){
     pubvelcmd(vx, vth);
     as->publishFeedback(fb);
     rate.sleep();
+    nh.getParam("/client_node/status",goal_status);
   }
 
+  std::cout << "end of following" << std::endl;
+  pubvelcmd(0.0,0.0);
   as->setSucceeded();
 
 }
@@ -117,8 +122,9 @@ void server::subtagCB(const tb_follower_msgs::ar_tagConstPtr& msg){
 }
 
 void server::preemptCB(){
-  std::cout << "cancel goal" << std::endl;
-  pubvelcmd(0.0,0.0);
+  // std::cout << "cancel goal" << std::endl;
+  // as->setPreempted();
+  // pubvelcmd(0.0,0.0);
 }
 
 void server::pubvelcmd( const double x, const double th ){

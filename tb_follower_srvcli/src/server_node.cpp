@@ -6,7 +6,7 @@ int main( int argc, char** argv ){
   ros::NodeHandle nh;
   server server(nh);
 
-  ros::MultiThreadedSpinner spinner(2);
+  ros::MultiThreadedSpinner spinner(3);
   spinner.spin();
   // ros::spin();
   return 0;

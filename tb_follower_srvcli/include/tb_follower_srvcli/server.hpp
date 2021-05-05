@@ -30,6 +30,7 @@ private:
   double vx;
   double vth;
   bool new_ar;
+  int goal_status;
   std::vector<int> scan_idx;
 
 

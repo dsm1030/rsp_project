@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<launch>
+  <node pkg="tb_follower_srvcli" type="server_node" name="server_node" output="screen"/>
+  <node pkg="rqt_reconfigure" type="rqt_reconfigure" name="rqt_reconfigure" />
+  <node pkg="tb_follower_srvcli" type="client_node" name="client_node" output="screen"/>
+</launch>

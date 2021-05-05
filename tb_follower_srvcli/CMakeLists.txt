@@ -16,6 +16,8 @@ find_package(catkin REQUIRED COMPONENTS
   geometry_msgs
   sensor_msgs
   std_msgs
+  rospy
+  dynamic_reconfigure
 )
 
 ## System dependencies are found with CMake's conventions
@@ -97,6 +99,10 @@ find_package(catkin REQUIRED COMPONENTS
 #   cfg/DynReconf1.cfg
 #   cfg/DynReconf2.cfg
 # )
+generate_dynamic_reconfigure_options(
+  cfg/gui.cfg
+
+)
 
 ###################################
 ## catkin specific configuration ##
@@ -129,10 +135,11 @@ include_directories(
 add_library(server  src/server.cpp)
 add_executable(server_node src/server_node.cpp)
 
+add_library(client  src/client.cpp)
+add_executable(client_node src/client_node.cpp)
 
 
-
-
+add_dependencies(client_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS}) 
 
 
 
@@ -141,6 +148,12 @@ target_link_libraries(server ${catkin_LIBRARIES})
 target_link_libraries(server_node
   ${catkin_LIBRARIES}
   server
+)
+target_link_libraries(client ${catkin_LIBRARIES})
+
+target_link_libraries(client_node
+  ${catkin_LIBRARIES}
+  client
 )
 
 ## Add cmake target dependencies of the library
