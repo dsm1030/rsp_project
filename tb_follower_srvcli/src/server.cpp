@@ -6,7 +6,7 @@ server::server( ros::NodeHandle& nh ) : nh( nh ),tagth(0.0){
   scanidx_init(deg);
   pub_cmd = nh.advertise<geometry_msgs::Twist>("/cmd_vel",10);
   sub_scan = nh.subscribe("/scan_filtered", 10, &server::subscanCB, this);
-  sub_tag = nh.subscribe("/tag_pose", 10, &server::subtagCB, this );
+  sub_tag = nh.subscribe("/tag_filtered", 10, &server::subtagCB, this );
 
   as.reset(new ActionServer(nh, "action_server", false));
   as->registerGoalCallback( boost::bind(&server::goalCB, this));
@@ -89,21 +89,23 @@ void server::subscanCB(const sensor_msgs::LaserScanConstPtr& msg){
   int min_range_idx = std::min_element(laser_smooth.begin(),laser_smooth.end())-laser_smooth.begin();
   min_range = *std::min_element(laser_smooth.begin(),laser_smooth.end());
 
-  // if( (abs(min_range-tagth)<35) ){
-  //   dr = min_range-rref;
-  //   dth = min_range_idx-deg;
-  // } else {
-  //   dth = std::round(tagth);
-  //   dr = laser_smooth[tagth+deg];
-  // }
-  dr = min_range-rref;
-  dth = min_range_idx-deg;
+  if( (new_ar) && (abs(min_range-tagth)<35) ){
+    dr = min_range-rref;
+    dth = min_range_idx-deg;
+  } else {
+    dth = std::round(tagth);
+    dr = laser_smooth[tagth+deg];
+  }
+  // dr = min_range-rref;
+  // dth = min_range_idx-deg;
 
 }
 
-void server::subtagCB(const geometry_msgs::PoseConstPtr& msg){
-  double pi = 3.14159265359;
-  tagth = atan2(msg->position.y,msg->position.x)/pi*180.0;
+void server::subtagCB(const tb_follower_msgs::ar_tagConstPtr& msg){
+  // double pi = 3.14159265359;
+  // tagth = atan2(msg->position.y,msg->position.x)/pi*180.0;
+  new_ar = msg->new_data;
+  tagth = msg->polar_th;
 }
 
 void server::preemptCB(){

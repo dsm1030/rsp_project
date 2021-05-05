@@ -1,5 +1,6 @@
 #include <ros/ros.h>
 #include <tb_follower_actions/followAction.h>
+#include <tb_follower_msgs/ar_tag.h>
 #include <math.h>
 #include <actionlib/server/simple_action_server.h>
 #include <sensor_msgs/LaserScan.h>
@@ -27,6 +28,7 @@ private:
   int dth;
   double vx;
   double vth;
+  bool new_ar;
   std::vector<int> scan_idx;
 
 
@@ -36,7 +38,7 @@ public:
   void goalCB();
   void preemptCB();
   void subscanCB( const sensor_msgs::LaserScanConstPtr& msg );
-  void subtagCB( const geometry_msgs::PoseConstPtr& msg );
+  void subtagCB( const tb_follower_msgs::ar_tagConstPtr& msg );
   void pubvelcmd( const double x, const double th );
   void scanidx_init(const int deg);
 

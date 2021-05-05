@@ -11,6 +11,7 @@ find_package(catkin REQUIRED COMPONENTS
   actionlib
   roscpp
   tb_follower_actions
+  tb_follower_msgs
   nav_msgs
   geometry_msgs
   sensor_msgs
