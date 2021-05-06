@@ -1,7 +1,7 @@
 # RSP Project: Turtlebot AR Tag Following
 A ROS implementation enables Turtlebot to detect and follow objects aided with ar tag detection.
-## main dependencies
-aruco_ros 
+## Main Dependencies
+aruco_ros,
 turtlebot3 
 ## Tutorial
 1. Install
