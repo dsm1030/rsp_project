@@ -50,19 +50,16 @@
   <!--   <doc_depend>doxygen</doc_depend> -->
   <buildtool_depend>catkin</buildtool_depend>
   <build_depend>ar_pose_filter</build_depend>
-  <build_depend>gui</build_depend>
   <build_depend>laserscan_filter</build_depend>
   <build_depend>tb_follower_actions</build_depend>
   <build_depend>tb_follower_msgs</build_depend>
   <build_depend>tb_follower_srvcli</build_depend>
   <build_export_depend>ar_pose_filter</build_export_depend>
-  <build_export_depend>gui</build_export_depend>
   <build_export_depend>laserscan_filter</build_export_depend>
   <build_export_depend>tb_follower_actions</build_export_depend>
   <build_export_depend>tb_follower_msgs</build_export_depend>
   <build_export_depend>tb_follower_srvcli</build_export_depend>
   <exec_depend>ar_pose_filter</exec_depend>
-  <exec_depend>gui</exec_depend>
   <exec_depend>laserscan_filter</exec_depend>
   <exec_depend>tb_follower_actions</exec_depend>
   <exec_depend>tb_follower_msgs</exec_depend>

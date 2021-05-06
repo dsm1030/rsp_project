@@ -8,5 +8,6 @@
 
   <include file="$(find aruco_marker_finder)/launch/aruco_marker_finder.launch" />
 
+  <include file="$(find tb_follower_srvcli)/launch/action_srvcli.launch" />
 
 </launch>

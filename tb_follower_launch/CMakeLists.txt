@@ -9,7 +9,6 @@ project(tb_follower_launch)
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
   ar_pose_filter
-  gui
   laserscan_filter
   tb_follower_actions
   tb_follower_msgs
