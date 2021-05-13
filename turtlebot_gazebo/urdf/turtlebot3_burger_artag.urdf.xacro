@@ -188,4 +188,45 @@
       <child link="artag"/>
     </joint>
 
+
+    <link name='light_link'>
+        <visual name='light_source'>
+          <pose>0 0 0 0 0 0</pose>
+          <geometry>
+            <sphere>
+              <radius>0.025</radius>
+            </sphere>
+          </geometry>
+          <material>
+            <ambient>1 1 1 1</ambient>
+            <diffuse>1 1 1 1</diffuse>
+            <specular>1 1 1 1</specular>
+            <emissive>0 0 0 1</emissive>
+          </material>
+        </visual>
+    </link>
+    <joint name="light_joint" type="fixed">
+      <axis xyz="0 0 1" />
+      <origin xyz="-0.1 0 0.3" rpy="0 0 0"/>
+      <parent link="base_footprint"/>
+      <child link="light_link"/>
+    </joint>
+    
+
+    <gazebo>
+      <plugin name="attach_light" filename="libAttachLightPlugin.so">
+          <link>
+              <link_name>light_link</link_name>
+              <light>
+                  <pose>0 0 0 0 0.785 0</pose>
+                  <light_name>light_source</light_name>
+              </light>
+          </link>
+      </plugin>
+    </gazebo>
+
+
+
+
+
 </robot>
