@@ -1,8 +1,9 @@
 # RSP Project: Turtlebot AR Tag Following
 A ROS implementation enables Turtlebot to detect and follow objects aided with ar tag detection.
 ## Main Dependencies
-aruco_ros,
-turtlebot3 
+aruco_ros \
+turtlebot3 \
+gazebo_ros
 ## Tutorial
 1. Install
     - First you need to install ros and all listed dependent ros packages.
@@ -57,5 +58,21 @@ turtlebot3
     - status: this control starts/ends the following task, choose "1" to start follow, and "0" to stop
     - distance: it can adjust the following distance between the turtlebot follower and the target.
 
-
+## Using Gazebo
+1. Source the built packages
+```
+source {path_to_your_workspace}/devel/setup.bash
+```
+2. Start Gazebo instead of real robot
+```
+roslaunch turtlebot_gazebo turtlebot_gazebo.launch
+```
+3. In a different terminal, start the follower packages
+```
+roslaunch tb_follower_launch tb_follower_launch.launch
+```
+4. To control the followee, run the teleop node, in a seperate terminal
+```
+rosrun turtlebot3_teleop turtlebot3_teleop_key cmd_vel:=/followee/cmd_vel
+```
 
