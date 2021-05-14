@@ -1,6 +1,15 @@
 <?xml version="1.0"?>
 <launch>
-  <node pkg="tb_follower_srvcli" type="server_node" name="server_node" output="screen"/>
+  <arg name="outputcmd" default="/cmd_vel"/>
+  <arg name="tag_polar" default="/tag_filtered"/>
+  <arg name="inputscan" default="/scan_filtered"/>
+
+
+  <node pkg="tb_follower_srvcli" type="server_node" name="server_node" output="screen">
+    <remap from="/cmd_vel" to="$(arg outputcmd)"/>
+    <remap from="/tag_filtered" to="$(arg tag_polar)"/>
+    <remap from="/scan_filtered" to="$(arg inputscan)"/>
+  </node>
   <node pkg="rqt_reconfigure" type="rqt_reconfigure" name="rqt_reconfigure" />
   <node pkg="tb_follower_srvcli" type="client_node" name="client_node" output="screen"/>
 </launch>

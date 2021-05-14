@@ -1,13 +1,29 @@
 <?xml version="1.0"?>
 <launch>
-  <include file="$(find laserscan_filter)/launch/laserscan_filter.launch" />
+
+  <arg name="scan_name" default="/scan"/>
+  <arg name="filtered_name" default="/scan_filtered"/>
+  <arg name="outputcmd" default="/cmd_vel"/>
+  <arg name="tag_polar" default="/tag_filtered"/>
+  <arg name="tag_pose" default="/raspicam_node/aruco_single/pose"/>
+
+
+  <include file="$(find laserscan_filter)/launch/laserscan_filter.launch" >
+    <arg name="scan_name" value="$(arg scan_name)"/> 
+    <arg name="filtered_name" value="$(arg filtered_name)"/>
+  </include>
 
   <node pkg="ar_pose_filter" type="ar_filter_node" name="ar_filter_node">
-    <remap from="/tag_pose" to="/raspicam_node/aruco_single/pose"/>
+    <remap from="/tag_pose" to="$(arg tag_pose)"/>
+    <remap from="/tag_filtered" to="$(arg tag_polar)"/>
   </node>
 
   <include file="$(find aruco_marker_finder)/launch/aruco_marker_finder.launch" />
 
-  <include file="$(find tb_follower_srvcli)/launch/action_srvcli.launch" />
+  <include file="$(find tb_follower_srvcli)/launch/action_srvcli.launch">
+    <arg name="outputcmd" value="$(arg outputcmd)"/>
+    <arg name="tag_polar" value="$(arg tag_polar)"/>
+    <arg name="inputscan" value="$(arg filtered_name)"/>
+  </include>
 
 </launch>
